@@ -17,9 +17,11 @@ These directories and files have the following functions:
 ## Install 
 1. Install Kubernetes
 
-1. Install Multus [ https://intel.github.io/multus-cni/doc/quickstart.html ]
+2. Install Multus [ https://intel.github.io/multus-cni/doc/quickstart.html ]
 
-2. Install Homebrew
+3. Storing a configuration as a Custom Resource [https://intel.github.io/multus-cni/doc/quickstart.html#storing-a-configuration-as-a-custom-resource]
+
+4. Install Homebrew
 ```
 git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
 mkdir ~/.linuxbrew/bin
@@ -27,7 +29,7 @@ ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 eval $(~/.linuxbrew/bin/brew shellenv)
 ```
 
-3. ``brew install helm``
+5. ``brew install helm``
 
 
 ## Running pods
