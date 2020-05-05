@@ -16,6 +16,9 @@ These directories and files have the following functions:
 
 ## Install 
 1. Install Kubernetes
+
+1. Install Multus [ https://intel.github.io/multus-cni/doc/quickstart.html ]
+
 2. Install Homebrew
 ```
 git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
@@ -24,11 +27,8 @@ ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 eval $(~/.linuxbrew/bin/brew shellenv)
 ```
 
-2. ``brew install helm``
+3. ``brew install helm``
 
-## free5gc pods communication
-
- kubectl create -f networkpolicy.yaml
 
 ## Running pods
 
@@ -51,7 +51,7 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ## Free5gc
 
-Configure pods ips! And ./setup-lasse in eachpod (only in upf ./free5gc-upf)
+Configure free5gc modules ips. And ./setup-lasse in each pod (only in upf do: ./free5gc-upf)
 
 
 ## Debugging
