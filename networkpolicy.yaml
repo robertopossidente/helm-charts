@@ -1,0 +1,15 @@
+#In the following example, incoming traffic to pods with label io.kompose.network/cluster_net1: "true" are allowed only if they come from a pod with label io.kompose.network/cluster_net1: "true"
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: net1
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      io.kompose.network/cluster_net1: "true"
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          io.kompose.network/cluster_net1: "true"
