@@ -4,14 +4,6 @@ metadata:
   labels:
     app: {{ .Values.name }}
   name: {{ .Values.name }}
-{{- if eq .Values.name "upf"}}
-  annotations:
-    k8s.v1.cni.cncf.io/networks: macvlan-conf
-  {{- end }}
-{{- if eq .Values.name "amf"}}
-  annotations:
-    k8s.v1.cni.cncf.io/networks: macvlan-conf
-  {{- end }}
 spec:
   replicas: 1
   selector:
@@ -19,6 +11,14 @@ spec:
       io.kompose.service: {{ .Values.name }}
   template:
     metadata:
+{{- if eq .Values.name "upf"}}
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-conf
+  {{- end }}
+{{- if eq .Values.name "amf"}}
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-conf
+  {{- end }}
       labels:
         io.kompose.network/cluster_net1: "true"
         io.kompose.service: {{ .Values.name }}
