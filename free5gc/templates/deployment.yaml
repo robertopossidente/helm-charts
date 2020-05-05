@@ -16,7 +16,7 @@ spec:
         io.kompose.service: {{ .Values.name }}
     spec:
       containers:
-      - image: {{ .Values.name }}
+      - image: virginiabrioso/{{ .Values.name }}
         imagePullPolicy: IfNotPresent
         name: {{ .Values.name }}
         resources: {}
