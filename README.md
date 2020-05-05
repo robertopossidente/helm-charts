@@ -26,17 +26,37 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 2. ``brew install helm``
 
+## free5gc pods communication
+
+ kubectl create -f networkpolicy.yaml
+
 ## Running pods
 
 ``helm install ./oai-ran/ --generate-name --set name=rru``
 
 ``helm install ./oai-ran/ --generate-name --set name=rcc``
 
+``helm install ./free5gc --generate-name --set name=mongo``
+
+``helm install ./free5gc --generate-name --set name=hss``
+
+``helm install ./free5gc --generate-name --set name=amf``
+
+``helm install ./free5gc --generate-name --set name=upf``
+
+``helm install ./free5gc --generate-name --set name=smf``
+
+``helm install ./free5gc --generate-name --set name=pcrf``
+
+
+## Free5gc
+
+Configure pods ips! And ./setup-lasse in eachpod (only in upf ./free5gc-upf)
+
+
 ## Debugging
 Example:
 
 ``helm install --dry-run --debug ./oai-ran/ --generate-name``
-
-
 
 
