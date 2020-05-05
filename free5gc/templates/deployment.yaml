@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/cluster_net1: "true"
+        io.kompose.service: {{ .Values.name }}
+    spec:
+      containers:
+      - image: {{ .Values.name }}
+        imagePullPolicy: IfNotPresent
+        name: {{ .Values.name }}
+        resources: {}
+        securityContext:
+  {{- if eq .Values.name "upf" }}
+          capabilities:
+            add:
+            - NET_ADMIN
+  {{- end }}
+          privileged: true
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
