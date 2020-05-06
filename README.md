@@ -53,8 +53,13 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ## Free5gc
 
-Configure free5gc modules ips. And ./setup-lasse in each pod (only in upf do: ./free5gc-upf)
+Execution Order: HSS, AMF, UPF, SMF, PCRF
 
+In HSS, AMF, SMF, PCRF containers:
+``./setup-lasse.sh``
+
+In UPF container:
+``./free5gc-upfd``
 
 ## Debugging
 Example:
