@@ -51,15 +51,27 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 ``helm install ./free5gc --generate-name --set name=pcrf``
 
 
-## Free5gc
+## Free5gc Run 
 
-Execution Order: HSS, AMF, UPF, SMF, PCRF
+Execution Order: HSS, AMF, UPF, SMF, PCRF: 
 
-In HSS, AMF, SMF, PCRF containers:
-``./setup-lasse.sh``
+Run inside containers:
+``./setup-lasse.sh 192.188.2.10 192.188.2.3 192.188.2.2 192.188.2.1 192.188.2.4 192.188.2.5``
 
-In UPF container:
-``./free5gc-upfd``
+NOTE: We are setting up
+
+mongo IP = 192.188.2.10
+
+hss IP = 192.188.2.3
+
+amf IP = 192.188.2.2
+
+upf IP = 192.188.2.1
+
+smf IP = 192.188.2.4
+
+pcrf IP = 192.188.2.5
+
 
 ## Debugging
 Example:
