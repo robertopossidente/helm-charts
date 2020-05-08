@@ -8,7 +8,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      io.kompose.service: {{ .Values.name }}
   template:
     metadata:
 {{- if eq .Values.name "upf"}}
@@ -20,26 +20,13 @@ spec:
         k8s.v1.cni.cncf.io/networks: macvlan-conf
   {{- end }}
       labels:
-        app: {{ .Values.name }}
+        io.kompose.network/cluster_net1: "true"
+        io.kompose.service: {{ .Values.name }}
     spec:
       containers:
       - image: virginiabrioso/{{ .Values.name }}
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: {{ .Values.name }}
-  {{- if eq .Values.name "webapp" }}
-        ports:
-        - containerPort: 3000
-        env:
-        - name: MONGO_URL
-          value: mongodb://mongo:27017/dev
-  {{- end }}
-  {{- if eq .Values.name "mongo" }}
-          ports:
-            - containerPort: 27017
-          volumeMounts:
-            - name: storage
-              mountPath: /data/db
-  {{- end }}
         resources: {}
         securityContext:
   {{- if eq .Values.name "upf" }}
@@ -50,10 +37,5 @@ spec:
           privileged: true
       restartPolicy: Always
       serviceAccountName: ""
-  {{- if eq .Values.name "mongo" }}
-      volumes:
-        - name: storage
-          persistentVolumeClaim:
-            claimName: mongo-pvc
-  {{- end }}
+      volumes: null
 status: {}
