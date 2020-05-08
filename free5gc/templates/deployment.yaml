@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - image: virginiabrioso/{{ .Values.name }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: {{ .Values.name }}
         resources: {}
         securityContext:
