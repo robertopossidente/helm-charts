@@ -60,6 +60,30 @@ Run inside containers:
 
 These IPS in order are for: MONGO, HSS, AMF, UPF, SMF and PCRF. This order is very important for the setup script work! These ips can be changed according to each entity's pod IPS.
 
+###WEBAPP
+
+``helm install ./free5gc --generate-name --set name=webapp``
+
+Run inside container:
+``export DB_URI=mongodb://[MONGO IP]:27017/free5gc``
+``npm run dev``
+
+Acess:
+
+http://[WEBAPP NODE]:[WEBAPP NODE PORT]/
+
+Login: admin
+Password: 1423
+
+###MONGO
+
+List subscribers:
+
+Run inside mongo container:
+``mongo``
+``use free5gc``
+``db.getCollectionNames()``
+``db.subscribers.find()``
 
 ## Debugging
 Example:
