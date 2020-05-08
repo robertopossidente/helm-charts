@@ -1,0 +1,14 @@
+{{- if eq .Values.name "webapp" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  selector:
+    app: webapp
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: LoadBalancer
+{{- end }}
