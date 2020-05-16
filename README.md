@@ -60,7 +60,7 @@ Run inside containers:
 
 These IPS in order are for: MONGO, HSS, AMF, UPF, SMF and PCRF. This order is very important for the setup script work! These ips can be changed according to each entity's pod IPS.
 
-###WEBAPP
+### WEBAPP
 
 ``helm install ./free5gc --generate-name --set name=webapp``
 
