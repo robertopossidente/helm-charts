@@ -72,14 +72,12 @@ Run inside container:
 
 ``npm run dev &>/dev/null &``
 
-Acess:
+Acess: http://[WEBAPP NODE]:[WEBAPP NODE PORT]/
 
 get webapp node: ``kubectl describe service webapp``
 
 get webapp node port: ``kubectl get service webapp``
 
-
-http://[WEBAPP NODE]:[WEBAPP NODE PORT]/
 
 Login: admin
 
@@ -88,6 +86,7 @@ Password: 1423
 ### MONGO
 
 List subscribers (run in mongo container):
+
 ``mongo``
 
 ``use free5gc``
