@@ -22,6 +22,7 @@ These directories and files have the following functions:
 3. Storing a configuration as a Custom Resource [https://intel.github.io/multus-cni/doc/quickstart.html#storing-a-configuration-as-a-custom-resource]
 
 4. Install Homebrew
+
 ```
 git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
 mkdir ~/.linuxbrew/bin
@@ -32,7 +33,7 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 5. ``brew install helm``
 
 
-## Running pods
+## Create pods
 
 ``helm install ./oai-ran/ --generate-name --set name=rru``
 
@@ -50,30 +51,38 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ``helm install ./free5gc --generate-name --set name=pcrf``
 
+``helm install ./free5gc --generate-name --set name=webapp``
+
 
 ## Free5gc Run 
 
-Execution Order: HSS, AMF, UPF, SMF, PCRF: 
+Run:
 
-Run inside containers:
-``./setup-lasse.sh 192.188.2.10 192.188.2.3 192.188.2.2 192.188.2.1 192.188.2.4 192.188.2.5``
+``./free5gc-init.sh``
 
-These IPS in order are for: MONGO, HSS, AMF, UPF, SMF and PCRF. This order is very important for the setup script work! These ips can be changed according to each entity's pod IPS.
+See log (hss example):
+
+``kubectl exec $(kubectl get pod -l app=hss -o jsonpath="{.items[0].metadata.name}") -- cat /free5gc/install/var/log/free5gc/free5gc.log``
 
 ### WEBAPP
 
-``helm install ./free5gc --generate-name --set name=webapp``
-
 Run inside container:
+
 ``export DB_URI=mongodb://[MONGO IP]:27017/free5gc``
-``npm run dev``
+
+``npm run dev &>/dev/null &``
 
 Acess:
 
 http://[WEBAPP NODE]:[WEBAPP NODE PORT]/
 
 Login: admin
+
 Password: 1423
+
+webapp node: ``kubectl describe service webapp``
+
+webapp node port: ``kubectl get service webapp``
 
 ###MONGO
 
@@ -81,8 +90,11 @@ List subscribers:
 
 Run inside mongo container:
 ``mongo``
+
 ``use free5gc``
+
 ``db.getCollectionNames()``
+
 ``db.subscribers.find()``
 
 ## Debugging
