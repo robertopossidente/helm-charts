@@ -74,21 +74,20 @@ Run inside container:
 
 Acess:
 
+get webapp node: ``kubectl describe service webapp``
+
+get webapp node port: ``kubectl get service webapp``
+
+
 http://[WEBAPP NODE]:[WEBAPP NODE PORT]/
 
 Login: admin
 
 Password: 1423
 
-webapp node: ``kubectl describe service webapp``
+### MONGO
 
-webapp node port: ``kubectl get service webapp``
-
-###MONGO
-
-List subscribers:
-
-Run inside mongo container:
+List subscribers (run in mongo container):
 ``mongo``
 
 ``use free5gc``
@@ -98,6 +97,7 @@ Run inside mongo container:
 ``db.subscribers.find()``
 
 ## Debugging
+
 Example:
 
 ``helm install --dry-run --debug ./oai-ran/ --generate-name``
