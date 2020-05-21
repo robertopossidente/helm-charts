@@ -87,6 +87,7 @@ Password: 1423
 
 List subscribers (run in mongo container):
 
+
 ``mongo``
 
 ``use free5gc``
