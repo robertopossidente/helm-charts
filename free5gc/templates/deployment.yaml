@@ -25,6 +25,11 @@ spec:
         io.kompose.service: {{ .Values.name }}
         app: {{ .Values.name }}
     spec:
+      hostAliases:
+      - ip: 127.0.1.1
+        hostnames:
+         - {{ .Values.name }}.localdomain
+         - {{ .Values.name }}
       containers:
       - image: virginiabrioso/{{ .Values.name }}
         imagePullPolicy: Always
@@ -45,4 +50,5 @@ spec:
       serviceAccountName: ""
       volumes: null
 status: {}
+
 
