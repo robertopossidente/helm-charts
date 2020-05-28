@@ -13,6 +13,7 @@ RRU_IP=$(kubectl get pod -l app=rru -o jsonpath="{.items[0].status.podIP}")
 kubectl exec $RRU_POD -- sed -i '102i\  host=NULL;\' ./openair3/NAS/UE/API/USER/user_api.c 
 kubectl exec $RRU_POD -- sed -i "s|local_if_name.*;|local_if_name                    = \"eth0\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|127.0.0.1|$RCC_IP;|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
+kubectl exec $RRU_POD -- sed -i "s|remote_address.*;|remote_address                   = \"$RCC_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|local_address.*;|local_address                    = \"$RRU_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 
 #RCC
