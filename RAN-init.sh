@@ -11,7 +11,8 @@ RCC_IP=$(kubectl get pod -l app=rcc -o jsonpath="{.items[0].status.podIP}")
 RRU_IP=$(kubectl get pod -l app=rru -o jsonpath="{.items[0].status.podIP}")
 
 #RRU
-kubectl exec $RRU_POD -- sed -i '102i\  host=NULL;\' ./openair3/NAS/UE/API/USER/user_api.c 
+kubectl exec $RRU_POD -- sed -i '102i\  host=NULL;\' ./openair3/NAS/UE/API/USER/user_api.c
+kubectl exec $RRU_POD -- sed -i "s|local_if_name.*;|local_if_name                    = \"eth0\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|remote_address.*;|remote_address                   = \"$RCC_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|local_address.*;|local_address                    = \"$RRU_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 
@@ -26,10 +27,18 @@ kubectl exec $RCC_POD -- sed -i "s|local_address.*;|local_address  = \"$RCC_IP\"
 kubectl exec $RCC_POD -- sed -i "s|mcc = 208;|mnc = 208;|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
 kubectl exec $RCC_POD -- sed -i "s|mnc = 92;|mnc = 93;|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
 
+kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_ENABLED.*;|FLEXRAN_ENABLED        = \"no\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
+
+if [ $1 = "flexran_enabled" ]; then
+kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_ENABLED.*;|FLEXRAN_ENABLED        = \"yes\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
+kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_INTERFACE_NAME.*;|FLEXRAN_INTERFACE_NAME = \"eth0\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
+kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_IPV4_ADDRESS.*;|FLEXRAN_IPV4_ADDRESS   = \"127.0.0.1\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
+fi
+
 #RUN 
-kubectl exec $RCC_POD -- sudo -E ./lte-softmodem.Rel15 -O ../../ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf &>/dev/null &
-sleep 60s
-echo "RCC initialized"
-kubectl exec $RRU_POD -- sudo -E ./lte-uesoftmodem.Rel15 -O ../../ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 4&>/dev/null &
-sleep 60s
-echo "RRU initialized"
+#kubectl exec $RCC_POD -- sudo -E ./lte-softmodem.Rel15 -O ../../ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf &>/dev/null &
+#sleep 60s
+#echo "RCC initialized"
+#kubectl exec $RRU_POD -- sudo -E ./lte-uesoftmodem.Rel15 -O ../../ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 4&>/dev/null &
+#sleep 60s
+#echo "RRU initialized"
