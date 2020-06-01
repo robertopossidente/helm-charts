@@ -22,12 +22,12 @@ spec:
               - key: app
                 operator: In
                 values:
-                - rru
-  {{- if eq .Values.name "rru" }}
+                - rru-ue-master
+  {{- if eq .Values.name "rru-ue-master" }}
               - key: app
                 operator: In
                 values:
-                - rcc
+                - rcc-master
   {{- end }}
             topologyKey: "kubernetes.io/hostname"
       hostNetwork: false
@@ -45,7 +45,7 @@ spec:
         volumeMounts:
         - name: usb
           mountPath: /dev/bus/usb
- {{- if eq .Values.name "rru" }}
+ {{- if eq .Values.name "rru-ue-master" }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -60,3 +60,4 @@ spec:
       - name: usb
         hostPath:
           path: /dev/bus/usb
+
