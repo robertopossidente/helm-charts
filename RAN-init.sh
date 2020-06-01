@@ -36,9 +36,9 @@ fi
 
 #RUN 
 kubectl exec $RCC_POD -- sudo -E ./targets/bin/lte-softmodem.Rel14 -O ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf  > /dev/null 2>&1 &
-kubectl exec $RRU_POD -- ./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .  > /dev/null 2>&1 &
+#kubectl exec $RRU_POD -- ./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .  > /dev/null 2>&1 &
 sleep 5s
 kubectl exec $RRU_POD -- sudo -E ./targets/bin/lte-uesoftmodem.Rel14 -O ./ci-scripts/conf_files/rru.fdd.band7.conf --siml1 --nokrnmod 1 > /dev/null 2>&1 &
+sleep 10s
 echo "----------------------------------------------------------"
-sleep 15s
 echo "RAN initialized"

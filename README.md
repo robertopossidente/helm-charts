@@ -87,6 +87,10 @@ See log (hss example):
 
 ## OAI-RAN Run 
 
+(Only one time) run inside rru-ue container:
+
+``./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .``
+
 Run in the master node:
 
 ``./RAN-init.sh``
