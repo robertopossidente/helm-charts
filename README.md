@@ -51,7 +51,7 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ## Create OAI-RAN pods
 
-The rcc-master and rru-ue-master should docker images already exist in all nodes. And all rru nodes should be labeled with:
+The rcc-master and rru-ue-master docker images should already exist in all nodes. And all rru nodes should be labeled with:
 
 ``kubectl label nodes [NODE NAME] usrp=connected``
 
@@ -63,7 +63,7 @@ After this, run (in order):
 
 ## Free5gc Run 
 
-Inside UPF container:
+(Only one time) Inside UPF container:
 
 ```
 apt-get install net-tools
@@ -77,7 +77,7 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables -I INPUT -i uptun -j ACCEPT
 ```
 
-Run:
+Run in the master node:
 
 ``./free5gc-init.sh``
 
@@ -87,16 +87,19 @@ See log (hss example):
 
 ## OAI-RAN Run 
 
-Init RAN:
+Run in the master node:
 
 ``./RAN-init.sh``
 
 ## End all
 
+Run in the master node:
+
 ``./finish.sh``
 
 ## Add subscriber 
-(Only in first time) Run inside webapp container:
+
+(Only in the first time) Run inside webapp container:
 
 ``export DB_URI=mongodb://[MONGO IP]:27017/free5gc``
 
@@ -108,24 +111,23 @@ ps: get webapp node: ``kubectl describe service webapp`` and get webapp node por
 
 UE informations should match with the file ``./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf)`` inside rru-ue container
 
-## Verify
+## Others
 
-##UE internet connection (run in rru-ue-master container)
+## UE internet connection (run in rru-ue-master container)
 
 ``ping -I oaitun_ue1 8.8.8.8``
 
-##Watch UE and UPF connection (run in upf container)
+## Watch UE and UPF connection (run in upf container):
 
 ``iftop -i uptun``
 
-##List subscribers (run in mongo container):
+## List subscribers (run in mongo container):
 
 ``mongo``
 
 ``use free5gc``
 
 ``db.subscribers.find()``
-
 
 ## Debugging helm
 
