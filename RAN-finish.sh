@@ -6,8 +6,8 @@
 #SMF_POD=$(kubectl get pod -l app=smf -o jsonpath="{.items[0].metadata.name}")
 #PCRF_POD=$(kubectl get pod -l app=pcrf -o jsonpath="{.items[0].metadata.name}")
 #
-#RRU_POD=$(kubectl get pod -l app=rru-ue-master -o jsonpath="{.items[0].metadata.name}")
-#RCC_POD=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].metadata.name}")
+RRU_POD=$(kubectl get pod -l app=rru-ue-master -o jsonpath="{.items[0].metadata.name}")
+RCC_POD=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].metadata.name}")
 #
 #kubectl exec $HSS_POD -- pkill -9 nextepc
 #kubectl exec $HSS_POD -- rm /free5gc/install/var/log/free5gc/free5gc.log
