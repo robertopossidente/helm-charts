@@ -3,16 +3,16 @@
 #  OAI-RAN
 ###################################################################
 
-RRU_POD=$(kubectl get pod -l app=rru -o jsonpath="{.items[0].metadata.name}")
-RCC_POD=$(kubectl get pod -l app=rcc -o jsonpath="{.items[0].metadata.name}")
+RRU_POD=$(kubectl get pod -l app=rru-ue-master -o jsonpath="{.items[0].metadata.name}")
+RCC_POD=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].metadata.name}")
 AMF_IP=$(kubectl get pod -l app=amf -o jsonpath="{.items[0].status.podIP}")
-RCC_IP=$(kubectl get pod -l app=rcc -o jsonpath="{.items[0].status.podIP}")
-RRU_IP=$(kubectl get pod -l app=rru -o jsonpath="{.items[0].status.podIP}")
+RCC_IP=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].status.podIP}")
+RRU_IP=$(kubectl get pod -l app=rru-ue-master -o jsonpath="{.items[0].status.podIP}")
 
 #RRU
-kubectl exec $RRU_POD -- sed -i '102i\  host=NULL;\' ./openair3/NAS/UE/API/USER/user_api.c 
+#kubectl exec $RRU_POD -- sed -i '102i\  host=NULL;\' ./openair3/NAS/UE/API/USER/user_api.c 
 kubectl exec $RRU_POD -- sed -i "s|local_if_name.*;|local_if_name                    = \"eth0\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
-kubectl exec $RRU_POD -- sed -i "s|127.0.0.1|$RCC_IP;|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
+kubectl exec $RRU_POD -- sed -i "s|\"127.0.0.1\"|\"$RCC_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|remote_address.*;|remote_address                   = \"$RCC_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 kubectl exec $RRU_POD -- sed -i "s|local_address.*;|local_address                    = \"$RRU_IP\";|g" ./ci-scripts/conf_files/rru.fdd.band7.conf
 
@@ -35,7 +35,10 @@ kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_IPV4_ADDRESS.*;|FLEXRAN_IPV4_ADDRESS 
 fi
 
 #RUN 
-#kubectl exec $RRU_POD -- sudo -E ./lte-uesoftmodem.Rel14 -O ../../ci-scripts/conf_files/rru.fdd.band7.conf --siml1 -r 25 --ue-txgain 0 --ue-scan-carrier --ue-rxgain 115 -U 4
-#kubectl exec $RCC_POD -- sudo -E ./lte-softmodem.Rel14 -O ../../ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
-
-
+kubectl exec $RCC_POD -- sudo -E ./targets/bin/lte-softmodem.Rel14 -O ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf  > /dev/null 2>&1 &
+kubectl exec $RRU_POD -- ./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .  > /dev/null 2>&1 &
+sleep 5s
+kubectl exec $RRU_POD -- sudo -E ./targets/bin/lte-uesoftmodem.Rel14 -O ./ci-scripts/conf_files/rru.fdd.band7.conf --siml1 --nokrnmod 1 > /dev/null 2>&1 &
+echo "----------------------------------------------------------"
+sleep 15s
+echo "RAN initialized"
