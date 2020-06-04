@@ -14,15 +14,9 @@ These directories and files have the following functions:
     requirements.yaml: A YAML file that lists the chart’s dependencies.
     values.yaml: A YAML file of default configuration values for the chart.
 
-## Install 
+## Install Helm
 
-1. Install Kubernetes
-
-2. Install Multus [ https://intel.github.io/multus-cni/doc/quickstart.html ]
-
-3. Storing a configuration as a Custom Resource [https://intel.github.io/multus-cni/doc/quickstart.html#storing-a-configuration-as-a-custom-resource]
-
-4. Install Homebrew
+1. Install Homebrew
 
 ```
 git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
@@ -31,9 +25,11 @@ ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 eval $(~/.linuxbrew/bin/brew shellenv)
 ```
 
-5. ``brew install helm``
+3. ``brew install helm``
 
 ## Create 5G modules pods
+
+[All free5GC (and dependencies) docker images should be built in all nodes; in this link you can build all docker images through cluster docker-compose](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/free5gc-docker-kube "free5gc images")
 
 ``helm install ./free5gc --generate-name --set name=mongo``
 
@@ -51,7 +47,9 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ## Create OAI-RAN pods
 
-The rcc-master and rru-ue-master docker images should already exist in all nodes. And all rru nodes should be labeled with:
+[The rcc-master and rru-ue-master docker images should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/- "RAN-master images")
+
+And all rru nodes should be labeled with:
 
 ``kubectl label nodes [NODE NAME] usrp=connected``
 
@@ -63,19 +61,7 @@ After this, run (in order):
 
 ## Free5gc Run 
 
-(Only one time) Inside UPF container:
-
-```
-apt-get install net-tools
-ip tuntap add name uptun mode tun
-ip addr add 45.45.0.1/16 dev uptun
-ip link set uptun up
-sh -c "echo 'net.ipv6.conf.uptun.disable_ipv6=0' > /etc/sysctl.d/30-free5gc.conf"
-ip addr add cafe::1/64 dev uptun
-sh -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-iptables -I INPUT -i uptun -j ACCEPT
-```
+(Only one time) Create uptun interface inside UPF pod: ``/root/setup.sh``
 
 Run in the master node:
 
@@ -87,9 +73,9 @@ See log (hss example):
 
 ## OAI-RAN Run 
 
-(Only one time) run inside rru-ue container:
+(Only one time) Configure UE infos: ``./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf``
 
-``./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .``
+(Only one time) Build UE infos: ``./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .``
 
 Run in the master node:
 
