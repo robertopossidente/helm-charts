@@ -45,6 +45,18 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 ``helm install ./free5gc --generate-name --set name=webapp``
 
+## Free5gc Run 
+
+(Only one time) Create uptun interface inside UPF pod: ``/root/setup.sh``
+
+Run in the master node:
+
+``./free5gc-init.sh``
+
+See log (hss example):
+
+``kubectl exec $(kubectl get pod -l app=hss -o jsonpath="{.items[0].metadata.name}") -- cat /free5gc/install/var/log/free5gc/free5gc.log``
+
 ## Create OAI-RAN pods
 
 [The rcc-master and rru-ue-master docker images should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/- "RAN-master images")
@@ -59,17 +71,11 @@ After this, run (in order):
 
 ``helm install ./oai-ran/ --generate-name --set name=rcc-master``
 
-## Free5gc Run 
+#### Create Flexran pod 
 
-(Only one time) Create uptun interface inside UPF pod: ``/root/setup.sh``
+[The flexran-controller docker image should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/blob/master/flexran-controller/Dockerfile- "Flexran image")
 
-Run in the master node:
-
-``./free5gc-init.sh``
-
-See log (hss example):
-
-``kubectl exec $(kubectl get pod -l app=hss -o jsonpath="{.items[0].metadata.name}") -- cat /free5gc/install/var/log/free5gc/free5gc.log``
+``helm install ./simplechart/ --generate-name --set name=flexran-controller``
 
 ## OAI-RAN Run 
 
@@ -80,6 +86,8 @@ See log (hss example):
 Run in the master node:
 
 ``./RAN-init.sh``
+
+PS: For default Flexran is activated, to deactivate use ``./RAN-init.sh flexran_disabled``
 
 ## End all
 
