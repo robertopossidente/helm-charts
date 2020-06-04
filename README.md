@@ -25,7 +25,7 @@ ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 eval $(~/.linuxbrew/bin/brew shellenv)
 ```
 
-3. ``brew install helm``
+2. ``brew install helm``
 
 ## Create 5G modules pods
 
@@ -73,9 +73,9 @@ See log (hss example):
 
 ## OAI-RAN Run 
 
-(Only one time) Configure UE infos: ``./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf``
+(Only one time) Configure UE infos inside rru-ue pod: ``./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf``
 
-(Only one time) Build UE infos: ``./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .``
+(Only one time) Build UE infos inside rru-ue pod: ``./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .``
 
 Run in the master node:
 
