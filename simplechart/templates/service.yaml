@@ -1,0 +1,19 @@
+{{- if eq .Values.name "flexran-controller" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: flexran-controller
+spec:
+  selector:
+    app: flexran-controller
+  ports:
+    - name: http
+      port: 6001
+      targetPort: 9999
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 2210
+      protocol: TCP
+  type: LoadBalancer
+{{- end }}

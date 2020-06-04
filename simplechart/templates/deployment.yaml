@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      hostAliases:
+      - ip: 127.0.1.1
+        hostnames:
+         - {{ .Values.name }}.localdomain
+         - {{ .Values.name }}
+      containers:
+      - image: {{ .Values.name }}
+        imagePullPolicy: IfNotPresent
+        name: {{ .Values.name }}
+        command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
+        resources: {}
+        securityContext:
+          privileged: true
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
+
+
