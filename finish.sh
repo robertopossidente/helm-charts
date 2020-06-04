@@ -5,7 +5,7 @@ AMF_POD=$(kubectl get pod -l app=amf -o jsonpath="{.items[0].metadata.name}")
 UPF_POD=$(kubectl get pod -l app=upf -o jsonpath="{.items[0].metadata.name}")
 SMF_POD=$(kubectl get pod -l app=smf -o jsonpath="{.items[0].metadata.name}")
 PCRF_POD=$(kubectl get pod -l app=pcrf -o jsonpath="{.items[0].metadata.name}")
-
+FLEXRAN_POD=$(kubectl get pod -l app=flexran-controller -o jsonpath="{.items[0].metadata.name}")
 RRU_POD=$(kubectl get pod -l app=rru-ue-master -o jsonpath="{.items[0].metadata.name}")
 RCC_POD=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].metadata.name}")
 
