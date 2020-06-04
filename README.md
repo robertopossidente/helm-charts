@@ -27,23 +27,25 @@ eval $(~/.linuxbrew/bin/brew shellenv)
 
 2. ``brew install helm``
 
-## Create 5G modules pods
+## Create pods
 
 [All free5GC (and dependencies) docker images should be built in all nodes; in this link you can build all docker images through cluster docker-compose](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/free5gc-docker-kube "free5gc images")
 
-``helm install ./free5gc --generate-name --set name=mongo``
+[The rcc-master and rru-ue-master docker images should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/- "RAN-master images")
 
-``helm install ./free5gc --generate-name --set name=hss``
+And all rru nodes should be labeled with:
 
-``helm install ./free5gc --generate-name --set name=amf``
+``kubectl label nodes [NODE NAME] usrp=connected``
 
-``helm install ./free5gc --generate-name --set name=upf``
+[The flexran-controller docker image should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/blob/master/flexran-controller/Dockerfile- "Flexran image")
 
-``helm install ./free5gc --generate-name --set name=smf``
+Run in the master node:
 
-``helm install ./free5gc --generate-name --set name=pcrf``
+``./create.sh``
 
-``helm install ./free5gc --generate-name --set name=webapp``
+Example single pod create:
+
+``helm install ./[chart-model] --generate-name --set name=[name]``
 
 ## Free5gc Run 
 
@@ -56,26 +58,6 @@ Run in the master node:
 See log (hss example):
 
 ``kubectl exec $(kubectl get pod -l app=hss -o jsonpath="{.items[0].metadata.name}") -- cat /free5gc/install/var/log/free5gc/free5gc.log``
-
-## Create OAI-RAN pods
-
-[The rcc-master and rru-ue-master docker images should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/- "RAN-master images")
-
-And all rru nodes should be labeled with:
-
-``kubectl label nodes [NODE NAME] usrp=connected``
-
-After this, run (in order):
-
-``helm install ./oai-ran/ --generate-name --set name=rru-ue-master``
-
-``helm install ./oai-ran/ --generate-name --set name=rcc-master``
-
-#### Create Flexran pod 
-
-[The flexran-controller docker image should already exist in all nodes. ](https://gitlab.lasse.ufpa.br/2020-ai-testbed/ai-testbed/oai-ran-docker/blob/master/flexran-controller/Dockerfile- "Flexran image")
-
-``helm install ./simplechart/ --generate-name --set name=flexran-controller``
 
 ## OAI-RAN Run 
 
