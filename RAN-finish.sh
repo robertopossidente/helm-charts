@@ -26,6 +26,7 @@ RCC_POD=$(kubectl get pod -l app=rcc-master -o jsonpath="{.items[0].metadata.nam
 #echo "PCRF finished"
 kubectl exec $RRU_POD -- killall lte-uesoftmodem.Rel14
 kubectl exec $RCC_POD -- killall lte-softmodem.Rel14
+kubectl exec $FLEXRAN_POD -- killall run_flexran_rtc
 echo "RAN finished"
 
 

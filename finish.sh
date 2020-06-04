@@ -26,6 +26,7 @@ kubectl exec $PCRF_POD -- rm /free5gc/install/var/log/free5gc/free5gc.log
 echo "PCRF finished"
 kubectl exec $RRU_POD -- killall lte-uesoftmodem.Rel14
 kubectl exec $RCC_POD -- killall lte-softmodem.Rel14
+kubectl exec $FLEXRAN_POD -- killall run_flexran_rtc
 echo "RAN finished"
 
 
