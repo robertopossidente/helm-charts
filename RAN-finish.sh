@@ -28,7 +28,7 @@ FLEXRAN_POD=$(kubectl get pod -l app=flexran-controller -o jsonpath="{.items[0].
 #echo "PCRF finished"
 kubectl exec $RRU_POD -- killall lte-uesoftmodem.Rel14
 kubectl exec $RCC_POD -- killall lte-softmodem.Rel14
-kubectl exec $FLEXRAN_POD -- killall run_flexran_rtc
+kubectl exec $FLEXRAN_POD -- killall rt_controller
 echo "RAN finished"
 
 
