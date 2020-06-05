@@ -56,7 +56,7 @@ kubectl exec $FLEXRAN_POD -- ./run_flexran_rtc.sh  > /dev/null 2>&1 &
 
 if [ $1 = "flexran_disabled" ]; then
 #kubectl exec $RCC_POD -- sed -i "s|FLEXRAN_ENABLED.*;|FLEXRAN_ENABLED        = \"no\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
-kubectl exec $FLEXRAN_POD -- killall run_flexran_rtc  > /dev/null 2>&1 &
+kubectl exec $FLEXRAN_POD -- killall rt_controller > /dev/null 2>&1 &
 fi
 
 kubectl exec $RCC_POD -- sudo -E ./targets/bin/lte-softmodem.Rel14 -O ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf  > /dev/null 2>&1 &
