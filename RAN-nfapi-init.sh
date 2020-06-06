@@ -32,22 +32,20 @@ kubectl exec $VNF_POD -- sed -i "s|local_s_if_name.*;|local_s_if_name  = \"eth0\
 kubectl exec $VNF_POD -- sed -i "s|remote_s_address.*;|remote_s_address  = \"$PNF_IP\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
 kubectl exec $VNF_POD -- sed -i "s|local_s_address.*;|local_s_address  = \"$VNF_IP\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
 
-#flexran
 #flexran config
-#kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_ENABLED.*;|FLEXRAN_ENABLED        = \"yes\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
-#kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_INTERFACE_NAME.*;|FLEXRAN_INTERFACE_NAME = \"eth0\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
-#kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_IPV4_ADDRESS.*;|FLEXRAN_IPV4_ADDRESS   = \"$FLEXRAN_IP\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.if4p5.lo.25PRB.usrpb210.conf
+
+kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_ENABLED.*;|FLEXRAN_ENABLED        = \"yes\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
+kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_INTERFACE_NAME.*;|FLEXRAN_INTERFACE_NAME = \"eth0\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
+kubectl exec $VNF_POD -- sed -i "s|FLEXRAN_IPV4_ADDRESS.*;|FLEXRAN_IPV4_ADDRESS   = \"$FLEXRAN_IP\";|g" ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf
 
 #confirm its off 
 kubectl exec $PNF_POD -- killall lte-uesoftmodem.Rel15
 kubectl exec $VNF_POD -- killall lte-softmodem.Rel15
-#kubectl exec $FLEXRAN_POD -- killall rt_controller
+kubectl exec $FLEXRAN_POD -- killall rt_controller
 
 #run
-#kubectl exec $FLEXRAN_POD -- ./run_flexran_rtc.sh  > /dev/null 2>&1 &
-
-kubectl exec $VNF_POD -- sudo -E ./targets/bin/lte-softmodem.Rel15 -O ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf  > /dev/null 2>&1 &
-#kubectl exec $PNF_POD -- ./targets/bin/conf2uedata -c ./openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf -o .  > /dev/null 2>&1 &
+kubectl exec $FLEXRAN_POD -- ./run_flexran_rtc.sh  > /dev/null 2>&1 &
+kubectl exec $VNF_POD -- sudo -E ./targets/bin/lte-softmodem.Rel15 -O ./ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf> /dev/null 2>&1 &
 sleep 5s
 kubectl exec $PNF_POD -- sudo -E ./targets/bin/lte-uesoftmodem.Rel15 -O ./ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 4 --nokrnmod 1 > /dev/null 2>&1 &
 sleep 10s
