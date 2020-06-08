@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-name: rru
+name: vnf
 replicaCount: 1
 
 serviceAccount:
@@ -61,3 +61,6 @@ autoscaling:
 nodeSelector: {}
 
 tolerations: []
+
+nodeAffinity:
+  values: edge

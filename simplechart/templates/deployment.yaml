@@ -28,6 +28,15 @@ spec:
         securityContext:
           privileged: true
       restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: environment
+                operator: In
+                values:
+                -  {{ .Values.nodeAffinity.values }}
       serviceAccountName: ""
       volumes: null
 status: {}
