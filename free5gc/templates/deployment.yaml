@@ -26,9 +26,6 @@ spec:
       - image: {{ .Values.name }}
         imagePullPolicy: IfNotPresent
         name: {{ .Values.name }}
-   {{- if eq .Values.name "flexran" }}
-        command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
-  {{- end }}
   {{- if eq .Values.name "webapp" }}
         ports:
         - containerPort: 3000
@@ -42,6 +39,15 @@ spec:
   {{- end }}
           privileged: true
       restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: environment
+                operator: In
+                values:
+                -  {{ .Values.nodeAffinity.values }}
       serviceAccountName: ""
       volumes: null
 status: {}
