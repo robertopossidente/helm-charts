@@ -6,14 +6,16 @@ metadata:
 spec:
   selector:
     app: flexran-controller
+  type: NodePort
   ports:
     - name: http
       port: 6001
       targetPort: 9999
+      nodePort: 31364
       protocol: TCP
     - name: https
       port: 443
       targetPort: 2210
+      nodePort: 32081
       protocol: TCP
-  type: LoadBalancer
 {{- end }}
