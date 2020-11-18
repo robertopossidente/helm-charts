@@ -3,13 +3,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webapp
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: webapp
   ports:
     - port: 80
       targetPort: 3000
-      nodePort: 32603
       protocol: TCP
   type: NodePort
 {{- end }}

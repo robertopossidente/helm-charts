@@ -4,6 +4,7 @@ metadata:
   labels:
     app: {{ .Values.name }}
   name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -39,6 +40,7 @@ spec:
   {{- end }}
           privileged: true
       restartPolicy: Always
+{{- if eq .Values.mode "local" }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -47,8 +49,12 @@ spec:
               - key: environment
                 operator: In
                 values:
-                -  {{ .Values.nodeAffinity.values }}
+                -  {{ .Values.node }}
+{{- end }}
       serviceAccountName: ""
+{{- if eq .Values.mode "node-name" }}
+      nodeName: {{ .Values.node }}
+{{- end }}
       volumes: null
 status: {}
 
