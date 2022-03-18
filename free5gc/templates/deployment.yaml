@@ -24,7 +24,7 @@ spec:
          - {{ .Values.name }}.localdomain
          - {{ .Values.name }}
       containers:
-      - image: {{ .Values.name }}
+      - image: robertopossidente/{{ .Values.name }}
         imagePullPolicy: IfNotPresent
         name: {{ .Values.name }}
   {{- if eq .Values.name "webapp" }}

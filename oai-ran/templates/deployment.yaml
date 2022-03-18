@@ -33,7 +33,7 @@ spec:
       hostNetwork: false
       containers:
       - name: {{ .Values.name }}
-        image: {{ .Values.name }}
+        image: robertopossidente/{{ .Values.name }}
         imagePullPolicy: IfNotPresent
         ports:
             - containerPort: 5000
